@@ -55,3 +55,6 @@ This is a static website and can be hosted on GitHub Pages or any static web-hos
 - Import/export bookmarks as JSON
 - Drag-and-drop ordering
 - Favicon previews
+## Testing Notes
+
+Check adding a valid URL, opening a saved bookmark, deleting one item, clearing all items, refreshing the page, and verifying that saved bookmarks persist through local storage.
