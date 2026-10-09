@@ -12,10 +12,31 @@ const defaultBookmarks = [
     { name: 'LinkedIn', url: 'https://www.linkedin.com' }
 ];
 
-let bookmarks = JSON.parse(localStorage.getItem('bookmarks')) || defaultBookmarks;
+function loadBookmarks() {
+    try {
+        const saved = JSON.parse(localStorage.getItem('bookmarks'));
+        if (Array.isArray(saved)) {
+            return saved.filter((item) =>
+                item && typeof item.name === 'string' &&
+                typeof item.url === 'string' &&
+                /^https?:\/\//i.test(item.url)
+            );
+        }
+    } catch (error) {
+        console.warn('Saved bookmarks could not be read; using defaults.', error);
+    }
+    return defaultBookmarks;
+}
+
+let bookmarks = loadBookmarks();
 
 function saveBookmarks() {
-    localStorage.setItem('bookmarks', JSON.stringify(bookmarks));
+    try {
+        localStorage.setItem('bookmarks', JSON.stringify(bookmarks));
+    } catch (error) {
+        console.error('Bookmarks could not be saved in this browser.', error);
+        alert('Unable to save bookmarks. Check your browser storage settings.');
+    }
 }
 
 function renderBookmarks() {
@@ -56,7 +77,10 @@ form.addEventListener('submit', (event) => {
     const name = nameInput.value.trim();
     const url = urlInput.value.trim();
 
-    if (!name || !url) return;
+    if (!name || !url || !/^https?:\/\//i.test(url)) {
+        alert('Enter a name and a valid HTTP or HTTPS URL.');
+        return;
+    }
 
     bookmarks.unshift({ name, url });
     saveBookmarks();
