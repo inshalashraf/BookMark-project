@@ -37,6 +37,13 @@ h2 { margin-top: 0; }
 
 .add-bookmark { margin-bottom: 36px; }
 
+.bookmark-count { margin: -12px 0 16px; color: #6b7485; font-size: 0.92rem; }
+.search-label { display: block; margin: 0 0 8px; font-weight: 700; }
+.search-input { width: 100%; margin-bottom: 16px; background: #fff; }
+input:focus-visible, button:focus-visible, a:focus-visible { outline: 3px solid #78a6ff; outline-offset: 3px; }
+button:hover { filter: brightness(0.96); }
+[hidden] { display: none !important; }
+
 form {
     display: grid;
     grid-template-columns: 1fr 1.4fr auto;
