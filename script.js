@@ -4,6 +4,9 @@ const urlInput = document.getElementById('bookmarkUrl');
 const list = document.getElementById('bookmarkList');
 const emptyState = document.getElementById('emptyState');
 const clearButton = document.getElementById('clearBookmarks');
+const searchInput = document.getElementById('bookmarkSearch');
+const bookmarkCount = document.getElementById('bookmarkCount');
+const noResults = document.getElementById('noResults');
 
 const defaultBookmarks = [
     { name: 'Google', url: 'https://www.google.com' },
@@ -41,9 +44,18 @@ function saveBookmarks() {
 
 function renderBookmarks() {
     list.innerHTML = '';
-    emptyState.hidden = bookmarks.length > 0;
+    const query = searchInput.value.trim().toLowerCase();
+    const filteredBookmarks = bookmarks
+        .map((bookmark, index) => ({ bookmark, index }))
+        .filter(({ bookmark }) =>
+            bookmark.name.toLowerCase().includes(query) || bookmark.url.toLowerCase().includes(query)
+        );
 
-    bookmarks.forEach((bookmark, index) => {
+    bookmarkCount.textContent = `${bookmarks.length} ${bookmarks.length === 1 ? 'bookmark' : 'bookmarks'}`;
+    emptyState.hidden = bookmarks.length > 0;
+    noResults.hidden = bookmarks.length === 0 || filteredBookmarks.length > 0;
+
+    filteredBookmarks.forEach(({ bookmark, index }) => {
         const card = document.createElement('article');
         card.className = 'bookmark-card';
 
@@ -88,6 +100,8 @@ form.addEventListener('submit', (event) => {
     form.reset();
     nameInput.focus();
 });
+
+searchInput.addEventListener('input', renderBookmarks);
 
 clearButton.addEventListener('click', () => {
     if (bookmarks.length === 0) return;
