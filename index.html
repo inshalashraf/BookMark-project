@@ -26,11 +26,17 @@
 
         <section aria-labelledby="saved-title">
             <div class="section-heading">
-                <h2 id="saved-title">Saved bookmarks</h2>
+                <div>
+                    <h2 id="saved-title">Saved bookmarks</h2>
+                    <p id="bookmarkCount" class="bookmark-count" aria-live="polite">0 bookmarks</p>
+                </div>
                 <button id="clearBookmarks" class="secondary" type="button">Clear all</button>
             </div>
+            <label class="search-label" for="bookmarkSearch">Find a bookmark</label>
+            <input id="bookmarkSearch" class="search-input" type="search" placeholder="Search by name or URL…">
             <div id="bookmarkList" class="bookmark-grid" aria-live="polite"></div>
             <p id="emptyState" class="empty">No bookmarks yet. Add your first one above.</p>
+            <p id="noResults" class="empty" hidden>No matches found. Try another search.</p>
         </section>
     </main>
 
