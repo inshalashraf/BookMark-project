@@ -15,14 +15,29 @@ const defaultBookmarks = [
     { name: 'LinkedIn', url: 'https://www.linkedin.com' }
 ];
 
+function isValidHttpUrl(value) {
+    try {
+        const parsed = new URL(value);
+        return (parsed.protocol === 'http:' || parsed.protocol === 'https:') &&
+            Boolean(parsed.hostname);
+    } catch {
+        return false;
+    }
+}
+
+function normalizeUrl(value) {
+    return new URL(value).href;
+}
+
 function loadBookmarks() {
     try {
         const saved = JSON.parse(localStorage.getItem('bookmarks'));
         if (Array.isArray(saved)) {
             return saved.filter((item) =>
                 item && typeof item.name === 'string' &&
+                item.name.trim().length > 0 &&
                 typeof item.url === 'string' &&
-                /^https?:\/\//i.test(item.url)
+                isValidHttpUrl(item.url)
             );
         }
     } catch (error) {
@@ -72,6 +87,7 @@ function renderBookmarks() {
         remove.className = 'remove';
         remove.type = 'button';
         remove.textContent = 'Remove';
+        remove.setAttribute('aria-label', `Remove ${bookmark.name}`);
         remove.addEventListener('click', () => {
             bookmarks.splice(index, 1);
             saveBookmarks();
@@ -89,12 +105,27 @@ form.addEventListener('submit', (event) => {
     const name = nameInput.value.trim();
     const url = urlInput.value.trim();
 
-    if (!name || !url || !/^https?:\/\//i.test(url)) {
+    if (!name || !url || !isValidHttpUrl(url)) {
         alert('Enter a name and a valid HTTP or HTTPS URL.');
         return;
     }
 
-    bookmarks.unshift({ name, url });
+    const normalizedUrl = normalizeUrl(url);
+    const duplicateExists = bookmarks.some((bookmark) => {
+        try {
+            return normalizeUrl(bookmark.url) === normalizedUrl;
+        } catch {
+            return false;
+        }
+    });
+
+    if (duplicateExists) {
+        alert('This URL is already saved in your bookmarks.');
+        urlInput.focus();
+        return;
+    }
+
+    bookmarks.unshift({ name, url: normalizedUrl });
     saveBookmarks();
     renderBookmarks();
     form.reset();
