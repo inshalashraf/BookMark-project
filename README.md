@@ -4,13 +4,14 @@ A lightweight bookmark manager built with **HTML, CSS, and JavaScript**. Bookmar
 
 ## Features
 
-- Add bookmarks with a name and URL
-- Open saved links in a new tab
-- Remove individual bookmarks
-- Clear the complete bookmark list
-- Persistent browser storage with `localStorage`
+- Add bookmarks with a name and a validated HTTP or HTTPS URL
+- Prevent duplicate URLs using normalized URL comparison
+- Open saved links safely in a new tab
+- Search bookmarks by name or URL with live result counts
+- Remove individual bookmarks or clear the complete list
+- Persistent browser storage with defensive handling of invalid saved data
 - Responsive layout for desktop and mobile
-- Accessible form labels and live updates
+- Accessible form labels, keyboard focus indicators, and live updates
 
 ## Tech Stack
 
@@ -25,7 +26,7 @@ A lightweight bookmark manager built with **HTML, CSS, and JavaScript**. Bookmar
 BookMark-project/
 ├── index.html              # Main application page
 ├── bookmarkmanager.html    # Original bookmark-list page
-├── script.js               # Bookmark logic and persistence
+├── script.js               # Bookmark logic, validation, search, and persistence
 ├── style.css               # Responsive styling
 └── README.md
 ```
@@ -42,7 +43,7 @@ For the best local development experience, use a simple static server such as th
 
 ## Data & Privacy
 
-Bookmarks are stored only in the browser's local storage for the current site. The application does not use a backend database or send the saved bookmark list to a server.
+Bookmarks are stored only in the browser's local storage for the current site. The application does not use a backend database or send the saved bookmark list to a server. Clearing browser site data may remove saved bookmarks.
 
 ## Deployment
 
@@ -51,10 +52,10 @@ This is a static website and can be hosted on GitHub Pages or any static web-hos
 ## Future Improvements
 
 - Bookmark categories and tags
-- Search and filtering
 - Import/export bookmarks as JSON
 - Drag-and-drop ordering
 - Favicon previews
+
 ## Testing Notes
 
-Check adding a valid URL, opening a saved bookmark, deleting one item, clearing all items, refreshing the page, and verifying that saved bookmarks persist through local storage.
+Check adding valid HTTP and HTTPS URLs, rejecting malformed or unsupported URLs, preventing duplicate links, searching by name and URL, opening a saved bookmark, deleting one item, clearing all items, refreshing the page, and verifying that saved bookmarks persist through local storage.
