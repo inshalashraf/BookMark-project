@@ -41,7 +41,8 @@ h2 { margin-top: 0; }
 .search-label { display: block; margin: 0 0 8px; font-weight: 700; }
 .search-input { width: 100%; margin-bottom: 16px; background: #fff; }
 input:focus-visible, button:focus-visible, a:focus-visible { outline: 3px solid #78a6ff; outline-offset: 3px; }
-button:hover { filter: brightness(0.96); }
+button:hover:not(:disabled) { filter: brightness(0.96); }
+button:disabled { cursor: not-allowed; opacity: 0.5; }
 [hidden] { display: none !important; }
 
 form {
@@ -68,6 +69,12 @@ form button { background: #172033; color: #fff; }
     gap: 16px;
 }
 
+.bookmark-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
 .bookmark-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -82,4 +89,7 @@ form button { background: #172033; color: #fff; }
 @media (max-width: 700px) {
     form { grid-template-columns: 1fr; }
     .container { padding: 40px 0; }
+    .section-heading { align-items: flex-start; flex-direction: column; }
+    .bookmark-actions { width: 100%; }
+    .bookmark-actions button { flex: 1; }
 }
