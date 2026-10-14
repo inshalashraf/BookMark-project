@@ -4,6 +4,7 @@ const urlInput = document.getElementById('bookmarkUrl');
 const list = document.getElementById('bookmarkList');
 const emptyState = document.getElementById('emptyState');
 const clearButton = document.getElementById('clearBookmarks');
+const exportButton = document.getElementById('exportBookmarks');
 const searchInput = document.getElementById('bookmarkSearch');
 const bookmarkCount = document.getElementById('bookmarkCount');
 const noResults = document.getElementById('noResults');
@@ -69,6 +70,7 @@ function renderBookmarks() {
     bookmarkCount.textContent = `${bookmarks.length} ${bookmarks.length === 1 ? 'bookmark' : 'bookmarks'}`;
     emptyState.hidden = bookmarks.length > 0;
     noResults.hidden = bookmarks.length === 0 || filteredBookmarks.length > 0;
+    exportButton.disabled = bookmarks.length === 0;
 
     filteredBookmarks.forEach(({ bookmark, index }) => {
         const card = document.createElement('article');
@@ -133,6 +135,23 @@ form.addEventListener('submit', (event) => {
 });
 
 searchInput.addEventListener('input', renderBookmarks);
+
+exportButton.addEventListener('click', () => {
+    if (bookmarks.length === 0) return;
+
+    const backup = JSON.stringify(bookmarks, null, 2);
+    const file = new Blob([backup], { type: 'application/json' });
+    const downloadUrl = URL.createObjectURL(file);
+    const downloadLink = document.createElement('a');
+    const date = new Date().toISOString().slice(0, 10);
+
+    downloadLink.href = downloadUrl;
+    downloadLink.download = `bookmarks-${date}.json`;
+    document.body.appendChild(downloadLink);
+    downloadLink.click();
+    downloadLink.remove();
+    URL.revokeObjectURL(downloadUrl);
+});
 
 clearButton.addEventListener('click', () => {
     if (bookmarks.length === 0) return;
