@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="A simple bookmark manager built with HTML, CSS and JavaScript.">
+    <meta name="description" content="A simple bookmark manager built with HTML, CSS and JavaScript. Save, search, and export your useful links.">
     <title>Bookmark Manager</title>
     <link rel="stylesheet" href="style.css">
 </head>
@@ -30,7 +30,10 @@
                     <h2 id="saved-title">Saved bookmarks</h2>
                     <p id="bookmarkCount" class="bookmark-count" aria-live="polite">0 bookmarks</p>
                 </div>
-                <button id="clearBookmarks" class="secondary" type="button">Clear all</button>
+                <div class="bookmark-actions">
+                    <button id="exportBookmarks" class="secondary" type="button">Export JSON</button>
+                    <button id="clearBookmarks" class="secondary" type="button">Clear all</button>
+                </div>
             </div>
             <label class="search-label" for="bookmarkSearch">Find a bookmark</label>
             <input id="bookmarkSearch" class="search-input" type="search" placeholder="Search by name or URL…">
