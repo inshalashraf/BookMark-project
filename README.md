@@ -8,6 +8,7 @@ A lightweight bookmark manager built with **HTML, CSS, and JavaScript**. Bookmar
 - Prevent duplicate URLs using normalized URL comparison
 - Open saved links safely in a new tab
 - Search bookmarks by name or URL with live result counts
+- Export saved bookmarks to a dated JSON backup file
 - Remove individual bookmarks or clear the complete list
 - Persistent browser storage with defensive handling of invalid saved data
 - Responsive layout for desktop and mobile
@@ -19,6 +20,7 @@ A lightweight bookmark manager built with **HTML, CSS, and JavaScript**. Bookmar
 - CSS3
 - Vanilla JavaScript
 - Browser Local Storage API
+- Blob and URL APIs for client-side JSON export
 
 ## Project Structure
 
@@ -26,7 +28,7 @@ A lightweight bookmark manager built with **HTML, CSS, and JavaScript**. Bookmar
 BookMark-project/
 ├── index.html              # Main application page
 ├── bookmarkmanager.html    # Original bookmark-list page
-├── script.js               # Bookmark logic, validation, search, and persistence
+├── script.js               # Bookmark logic, validation, search, export, and persistence
 ├── style.css               # Responsive styling
 └── README.md
 ```
@@ -37,13 +39,13 @@ No installation or build tools are required.
 
 1. Clone the repository.
 2. Open `index.html` in a browser.
-3. Add and manage bookmarks directly in the page.
+3. Add, search, export, and manage bookmarks directly in the page.
 
 For the best local development experience, use a simple static server such as the VS Code Live Server extension.
 
 ## Data & Privacy
 
-Bookmarks are stored only in the browser's local storage for the current site. The application does not use a backend database or send the saved bookmark list to a server. Clearing browser site data may remove saved bookmarks.
+Bookmarks are stored in the browser's local storage for the current site. The application does not use a backend database or send the saved bookmark list to a server. Use **Export JSON** to download a backup of saved links. Clearing browser site data may remove bookmarks, so keep backups somewhere safe.
 
 ## Deployment
 
@@ -51,11 +53,11 @@ This is a static website and can be hosted on GitHub Pages or any static web-hos
 
 ## Future Improvements
 
+- Import bookmarks from a JSON backup
 - Bookmark categories and tags
-- Import/export bookmarks as JSON
 - Drag-and-drop ordering
 - Favicon previews
 
 ## Testing Notes
 
-Check adding valid HTTP and HTTPS URLs, rejecting malformed or unsupported URLs, preventing duplicate links, searching by name and URL, opening a saved bookmark, deleting one item, clearing all items, refreshing the page, and verifying that saved bookmarks persist through local storage.
+Check adding valid HTTP and HTTPS URLs, rejecting malformed or unsupported URLs, preventing duplicate links, searching by name and URL, exporting a JSON backup, opening a saved bookmark, deleting one item, clearing all items, refreshing the page, and verifying that saved bookmarks persist through local storage.
