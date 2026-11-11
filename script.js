@@ -5,6 +5,8 @@ const list = document.getElementById('bookmarkList');
 const emptyState = document.getElementById('emptyState');
 const clearButton = document.getElementById('clearBookmarks');
 const exportButton = document.getElementById('exportBookmarks');
+const importButton = document.getElementById('importBookmarks');
+const importFileInput = document.getElementById('bookmarkImportFile');
 const searchInput = document.getElementById('bookmarkSearch');
 const bookmarkCount = document.getElementById('bookmarkCount');
 const noResults = document.getElementById('noResults');
@@ -151,6 +153,59 @@ exportButton.addEventListener('click', () => {
     downloadLink.click();
     downloadLink.remove();
     URL.revokeObjectURL(downloadUrl);
+});
+
+importButton.addEventListener('click', () => importFileInput.click());
+
+importFileInput.addEventListener('change', async () => {
+    const file = importFileInput.files[0];
+    if (!file) return;
+
+    // Keep imports small and predictable for a browser-only tool.
+    if (file.size > 1024 * 1024) {
+        alert('The JSON file is too large. Choose a file smaller than 1 MB.');
+        importFileInput.value = '';
+        return;
+    }
+
+    try {
+        const imported = JSON.parse(await file.text());
+        if (!Array.isArray(imported)) {
+            throw new Error('The backup must contain a JSON array.');
+        }
+
+        const knownUrls = new Set(bookmarks.map((bookmark) => normalizeUrl(bookmark.url)));
+        const additions = [];
+
+        imported.forEach((item) => {
+            if (!item || typeof item.name !== 'string' ||
+                typeof item.url !== 'string' || !item.name.trim() ||
+                !isValidHttpUrl(item.url)) {
+                return;
+            }
+
+            const url = normalizeUrl(item.url);
+            if (!knownUrls.has(url)) {
+                knownUrls.add(url);
+                additions.push({ name: item.name.trim(), url });
+            }
+        });
+
+        if (additions.length === 0) {
+            alert('No new valid bookmarks were found in this file.');
+            return;
+        }
+
+        bookmarks = [...additions, ...bookmarks];
+        saveBookmarks();
+        renderBookmarks();
+        alert(`Imported ${additions.length} bookmark(s).`);
+    } catch (error) {
+        alert('Could not import this file. Choose a valid bookmark JSON backup.');
+        console.error('Bookmark import failed.', error);
+    } finally {
+        importFileInput.value = '';
+    }
 });
 
 clearButton.addEventListener('click', () => {
