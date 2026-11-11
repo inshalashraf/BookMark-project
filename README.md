@@ -9,6 +9,7 @@ A lightweight bookmark manager built with **HTML, CSS, and JavaScript**. Bookmar
 - Open saved links safely in a new tab
 - Search bookmarks by name or URL with live result counts
 - Export saved bookmarks to a dated JSON backup file
+- Import a JSON backup, validate entries, and skip duplicate URLs
 - Remove individual bookmarks or clear the complete list
 - Persistent browser storage with defensive handling of invalid saved data
 - Responsive layout for desktop and mobile
@@ -45,7 +46,7 @@ For the best local development experience, use a simple static server such as th
 
 ## Data & Privacy
 
-Bookmarks are stored in the browser's local storage for the current site. The application does not use a backend database or send the saved bookmark list to a server. Use **Export JSON** to download a backup of saved links. Clearing browser site data may remove bookmarks, so keep backups somewhere safe.
+Bookmarks are stored in the browser's local storage for the current site. The application does not use a backend database or send the saved bookmark list to a server. Use **Export JSON** to download a backup of saved links and **Import JSON** to restore valid entries. Imports accept a JSON array of `{ "name": "Example", "url": "https://example.com" }` objects, skip invalid entries and duplicate URLs, and are limited to 1 MB. Clearing browser site data may remove bookmarks, so keep backups somewhere safe.
 
 ## Deployment
 
@@ -53,11 +54,10 @@ This is a static website and can be hosted on GitHub Pages or any static web-hos
 
 ## Future Improvements
 
-- Import bookmarks from a JSON backup
 - Bookmark categories and tags
 - Drag-and-drop ordering
 - Favicon previews
 
 ## Testing Notes
 
-Check adding valid HTTP and HTTPS URLs, rejecting malformed or unsupported URLs, preventing duplicate links, searching by name and URL, exporting a JSON backup, opening a saved bookmark, deleting one item, clearing all items, refreshing the page, and verifying that saved bookmarks persist through local storage.
+Check adding valid HTTP and HTTPS URLs, rejecting malformed or unsupported URLs, preventing duplicate links, searching by name and URL, exporting and importing JSON backups (including malformed files and duplicate URLs), opening a saved bookmark, deleting one item, clearing all items, refreshing the page, and verifying that saved bookmarks persist through local storage.
